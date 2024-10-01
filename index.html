@@ -1,30 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Image Display</title>
+    <title>随机图片显示</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+        img {
+            object-fit: contain;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 <body>
     <script>
        // 检查是否为移动设备
-function mobile() {
-    const agent = navigator.userAgent;
-    const list = ['Windows Phone', 'BlackBerry', 'SymbianOS', 'Android', 'Mobile', 'iPhone', 'iPod'];
-    return list.some(device => agent.toLowerCase().includes(device.toLowerCase()));
-}
+       function mobile() {
+           const agent = navigator.userAgent;
+           const list = ['Windows Phone', 'BlackBerry', 'SymbianOS', 'Android', 'Mobile', 'iPhone', 'iPod'];
+           return list.some(device => agent.toLowerCase().includes(device.toLowerCase()));
+       }
 
-const baseUrl = mobile() ? 'https://tayssj.zeabur.app/' : 'https://taysdn.zeabur.app/';
-const url = `${Math.floor(Math.random() * 500) + 1}.webp`;
+       const baseUrl = mobile() ? 'https://tayssj.zeabur.app/' : 'https://taysdn.zeabur.app/';
+       const url = `${Math.floor(Math.random() * 500) + 1}.webp`;
 
-fetch(baseUrl + url)
-    .then(response => response.blob())
-    .then(blob => {
-        const img = document.createElement('img');
-        img.src = URL.createObjectURL(blob);
-        document.body.appendChild(img);
-    })
-    .catch(error => console.error('Error:', error));
+       fetch(baseUrl + url)
+           .then(response => response.blob())
+           .then(blob => {
+               const img = document.createElement('img');
+               img.src = URL.createObjectURL(blob);
+               document.body.appendChild(img);
+           })
+           .catch(error => console.error('错误:', error));
     </script>
 </body>
 </html>
