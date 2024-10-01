@@ -1,21 +1,30 @@
-<?php
-// Check for mobile device
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Image Display</title>
+</head>
+<body>
+    <script>
+       // 检查是否为移动设备
 function mobile() {
-    $agent = $_SERVER['HTTP_USER_AGENT'];
-    $list = array('Windows Phone', 'BlackBerry', 'SymbianOS', 'Android', 'Mobile', 'iPhone', 'iPod');
-    foreach ($list as $device) {
-        if (stripos($agent, $device) !== false) {
-            return true;
-        }
-    }
-    return false;
+    const agent = navigator.userAgent;
+    const list = ['Windows Phone', 'BlackBerry', 'SymbianOS', 'Android', 'Mobile', 'iPhone', 'iPod'];
+    return list.some(device => agent.toLowerCase().includes(device.toLowerCase()));
 }
 
-$base_url = mobile() ? 'https://tayssj.zeabur.app/' : 'https://taysdn.zeabur.app/';
-$url = rand(1, 500) . ".webp";
+const baseUrl = mobile() ? 'https://tayssj.zeabur.app/' : 'https://taysdn.zeabur.app/';
+const url = `${Math.floor(Math.random() * 500) + 1}.webp`;
 
-$content = file_get_contents($base_url . $url);
-header('Content-Type: image/webp');
-echo $content;
-exit;
-?>
+fetch(baseUrl + url)
+    .then(response => response.blob())
+    .then(blob => {
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(blob);
+        document.body.appendChild(img);
+    })
+    .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>
